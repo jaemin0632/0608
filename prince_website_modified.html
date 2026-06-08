@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Only want to see you. In the purple rain</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --pd:#0D0717;
+  --ps:#150D20;
+  --ps2:#1E1030;
+  --pm:#2E0057;
+  --pp:#4B0082;
+  --pb:#6B21A8;
+  --pl:#A855F7;
+  --pa:#C084FC;
+  --go:#C9A84C;
+  --gl:#F0D080;
+  --tx:#EDE9FF;
+  --mt:#9B7FB8;
+  --wh:#FAF7FF;
+  --bk:#060409;
+}
+html{scroll-behavior:smooth}
+body{background:var(--pd);color:var(--tx);font-family:'Cormorant Garamond',Georgia,serif;cursor:none;overflow-x:hidden}
+
+/* CURSOR */
+.cur{position:fixed;top:0;left:0;width:10px;height:10px;background:var(--go);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s}
+.cur-r{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--pl);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.45;transition:width .3s,height .3s}
+.cur.on{width:5px;height:5px}.cur-r.on{width:46px;height:46px;opacity:.2}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 3rem;background:linear-gradient(to bottom,rgba(13,7,23,.97),transparent);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+nav.sc{border-bottom-color:rgba(107,33,168,.35)}
+.n-logo{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.35em;color:var(--go);text-decoration:none}
+.n-links{display:flex;gap:2.2rem;list-style:none}
+.n-links a{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--mt);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.n-links a:hover{color:var(--pa)}
+
+/* ─── HERO ─── */
+#hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.h-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 100% at 50% 45%,var(--pp) 0%,var(--pm) 30%,var(--pd) 65%,var(--bk) 100%)}
+/* 히어로 배경 이미지: 슈퍼볼 공연 사진을 매우 어둡게 */
+.h-photo{position:absolute;inset:0;background:url('img_superbowl.webp') center 30%/cover no-repeat;opacity:.18;filter:saturate(.4) contrast(1.2)}
+.h-vgn{position:absolute;inset:0;background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 20%,rgba(13,7,23,.7) 60%,var(--pd) 100%)}
+.h-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(168,85,247,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,.05) 1px,transparent 1px);background-size:55px 55px}
+.h-ptc{position:absolute;inset:0;pointer-events:none}
+.ptc{position:absolute;border-radius:50%;background:var(--pl);animation:fup linear infinite;opacity:0}
+@keyframes fup{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.45}90%{opacity:.25}100%{transform:translateY(-5vh) scale(1.2);opacity:0}}
+
+.h-cnt{position:relative;z-index:2;text-align:center;padding:2rem}
+.h-sym{font-size:2.2rem;color:var(--go);display:block;margin-bottom:.7rem;animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{text-shadow:0 0 20px rgba(201,168,76,.3)}50%{text-shadow:0 0 60px rgba(201,168,76,.9),0 0 120px rgba(168,85,247,.5)}}
+.h-eye{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.55em;color:var(--pa);text-transform:uppercase;margin-bottom:1rem;display:block}
+.h-ttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(7rem,20vw,19rem);line-height:.8;letter-spacing:.06em;background:linear-gradient(150deg,var(--wh) 0%,var(--pa) 35%,var(--go) 65%,var(--pl) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;filter:drop-shadow(0 0 80px rgba(168,85,247,.45))}
+.h-sub{font-size:clamp(.9rem,1.8vw,1.25rem);font-style:italic;color:var(--mt);margin-top:1.2rem;letter-spacing:.08em}
+.h-yr{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--go);letter-spacing:.25em;margin-top:.5rem}
+.h-scr{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.3em;color:var(--mt);text-transform:uppercase}
+.scrl{width:1px;height:50px;background:linear-gradient(to bottom,var(--pl),transparent);animation:sa 1.8s ease-in-out infinite}
+@keyframes sa{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* COMMON */
+section{padding:8rem 0;position:relative}
+.ct{max-width:1200px;margin:0 auto;padding:0 3rem}
+.slbl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.4em;color:var(--go);text-transform:uppercase;margin-bottom:.7rem;display:block}
+.sttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);letter-spacing:.05em;line-height:1;color:var(--wh);margin-bottom:2.5rem}
+.gline{width:70px;height:1px;background:linear-gradient(to right,var(--go),transparent);margin-bottom:3rem}
+.pline{width:70px;height:1px;background:linear-gradient(to right,var(--pl),transparent);margin-bottom:3rem}
+
+/* ─── ABOUT ─── */
+#about{background:linear-gradient(180deg,var(--pd) 0%,var(--ps) 100%)}
+.ab-grid{display:grid;grid-template-columns:5fr 7fr;gap:5rem;align-items:start}
+.ab-img-wrap{position:relative}
+/* About 이미지: 흑백 포트레이트 */
+.ab-img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top center;border-radius:2px;filter:saturate(.3) contrast(1.15) brightness(.9)}
+.ab-frame{position:absolute;inset:-8px;border:1px solid rgba(168,85,247,.4);border-radius:2px;pointer-events:none}
+.ab-badge{position:absolute;bottom:-1.2rem;right:-1.2rem;background:var(--pp);border:1px solid var(--pl);padding:1rem 1.2rem;text-align:center;border-radius:2px}
+.ab-bn{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--go);display:block;line-height:1}
+.ab-bl{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;color:var(--pa);text-transform:uppercase;margin-top:.2rem}
+
+.ab-qt{font-size:clamp(1.3rem,2.3vw,1.9rem);font-style:italic;line-height:1.5;color:var(--wh);padding-left:1.4rem;border-left:2px solid var(--go);margin-bottom:1.8rem}
+.ab-qt em{color:var(--pa)}
+.ab-tx{font-size:.98rem;line-height:1.9;color:var(--mt)}
+.ab-tx p+p{margin-top:.9rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:2.2rem}
+.st{border:1px solid rgba(168,85,247,.2);padding:.9rem;border-radius:2px;background:rgba(107,33,168,.1)}
+.st-n{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--go);display:block;line-height:1}
+.st-l{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;color:var(--mt);text-transform:uppercase;margin-top:.15rem}
+
+/* ─── TIMELINE ─── */
+#timeline{background:var(--ps)}
+.tl{position:relative;padding-left:2rem}
+.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--pl),var(--pm))}
+.tl-i{position:relative;padding:0 0 2.8rem 3rem;opacity:0;transform:translateX(-15px);transition:opacity .6s,transform .6s}
+.tl-i.vis{opacity:1;transform:translateX(0)}
+.tl-i::before{content:'';position:absolute;left:-4px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--pl);border:2px solid var(--ps)}
+.tl-yr{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--go);display:block;margin-bottom:.15rem}
+.tl-ev{font-size:1.08rem;color:var(--wh);margin-bottom:.25rem}
+.tl-ds{font-size:.9rem;color:var(--mt);line-height:1.7;font-style:italic}
+
+/* ─── DISCOGRAPHY ─── */
+#discography{background:linear-gradient(180deg,var(--ps) 0%,var(--ps2) 100%)}
+.al-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.al-card{border-radius:3px;overflow:hidden;background:var(--ps);border:1px solid rgba(107,33,168,.25);transition:transform .4s,border-color .4s,box-shadow .4s;cursor:pointer}
+.al-card:hover{transform:translateY(-10px);border-color:var(--pl);box-shadow:0 20px 60px rgba(107,33,168,.45)}
+.al-cov{aspect-ratio:1;overflow:hidden;position:relative}
+.al-cov img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .5s}
+.al-card:hover .al-cov img{transform:scale(1.07);filter:brightness(1.1) saturate(1.2)}
+.al-ovl{position:absolute;inset:0;background:rgba(46,0,87,.88);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.7rem;opacity:0;transition:opacity .3s}
+.al-card:hover .al-ovl{opacity:1}
+.al-play{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--go);display:flex;align-items:center;justify-content:center;color:var(--go);font-size:.95rem}
+.al-tks{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--pa);letter-spacing:.06em;text-align:center;line-height:1.8;padding:0 1rem}
+.al-inf{padding:.8rem 1rem}
+.al-ttl{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.05em;color:var(--wh)}
+.al-yr{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--go);letter-spacing:.18em;margin-top:.12rem}
+.al-ds{font-size:.83rem;color:var(--mt);margin-top:.35rem;font-style:italic;line-height:1.5}
+
+/* ─── ICON ─── */
+#icon{background:var(--pd);overflow:hidden;position:relative}
+#icon::before{content:'';position:absolute;top:-300px;right:-300px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(107,33,168,.18),transparent 70%);pointer-events:none}
+.ic-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.ic-photo-wrap{position:sticky;top:7rem}
+/* Icon 사진: Purple Rain 투어 공연 */
+.ic-photo{width:100%;border-radius:2px;object-fit:cover;object-position:center top;filter:saturate(.55) contrast(1.1);border:1px solid rgba(168,85,247,.3);display:block}
+.ic-cap{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;color:var(--mt);text-transform:uppercase;margin-top:.7rem;text-align:center}
+.st-list{display:flex;flex-direction:column;gap:1.3rem}
+.st-item{padding:1.4rem;border:1px solid rgba(107,33,168,.2);border-radius:2px;background:rgba(21,13,32,.55);transition:border-color .3s,background .3s}
+.st-item:hover{border-color:var(--pl);background:rgba(107,33,168,.15)}
+.st-hd{display:flex;align-items:center;gap:.9rem;margin-bottom:.65rem}
+.st-num{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--go);letter-spacing:.12em}
+.st-nm{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.05em;color:var(--wh)}
+.st-tx{font-size:.9rem;color:var(--mt);line-height:1.7;font-style:italic}
+
+/* ─── GALLERY ─── */
+#gallery{background:var(--ps2)}
+.gal-main{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:320px 260px;gap:1rem;margin-bottom:1rem}
+.g{overflow:hidden;border-radius:3px;border:1px solid rgba(107,33,168,.2);position:relative}
+.g img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .5s;filter:saturate(.65) brightness(.9)}
+.g:hover img{transform:scale(1.06);filter:saturate(1) brightness(1)}
+.g-lbl{position:absolute;bottom:0;left:0;right:0;padding:.5rem .7rem;background:linear-gradient(to top,rgba(13,7,23,.9),transparent);font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;color:var(--pa);text-transform:uppercase;opacity:0;transition:opacity .3s}
+.g:hover .g-lbl{opacity:1}
+
+/* 갤러리 레이아웃 */
+.g-a{grid-column:1/6;grid-row:1/2}   /* 슈퍼볼 — 가로 큰 것 */
+.g-b{grid-column:6/9;grid-row:1/2}   /* 흑백 포트레이트 */
+.g-c{grid-column:9/13;grid-row:1/3}  /* Purple Rain 투어 — 세로 */
+.g-d{grid-column:1/4;grid-row:2/3}   /* Grammy */
+.g-e{grid-column:4/6;grid-row:2/3}   /* 흑백 기타 */
+.g-f{grid-column:6/9;grid-row:2/3}   /* Purple Rain 앨범 */
+
+/* album strip */
+.al-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem}
+.as{overflow:hidden;border-radius:3px;border:1px solid rgba(107,33,168,.2);aspect-ratio:1;position:relative;cursor:pointer}
+.as img{width:100%;height:100%;object-fit:cover;transition:transform .4s,filter .4s;filter:saturate(.7)}
+.as:hover img{transform:scale(1.08);filter:saturate(1.1)}
+.as-lbl{position:absolute;bottom:0;left:0;right:0;padding:.45rem .6rem;background:linear-gradient(to top,rgba(13,7,23,.92),transparent);font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:var(--pa);text-transform:uppercase;opacity:0;transition:opacity .3s}
+.as:hover .as-lbl{opacity:1}
+
+/* ─── LEGACY ─── */
+#legacy{background:linear-gradient(180deg,var(--ps2) 0%,var(--pm) 60%,#1A0033 100%);text-align:center}
+.lg-sym{font-size:3.5rem;color:var(--go);display:block;margin-bottom:1.8rem;filter:drop-shadow(0 0 30px rgba(201,168,76,.55))}
+.lg-qt{font-size:clamp(1.5rem,3.5vw,2.7rem);font-style:italic;line-height:1.55;color:var(--wh);max-width:850px;margin:0 auto .8rem}
+.lg-at{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.3em;color:var(--go);text-transform:uppercase}
+.lg-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:5rem;text-align:left}
+.lc{padding:1.8rem;border-top:1px solid rgba(168,85,247,.4)}
+.lc-n{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(168,85,247,.2);line-height:1;margin-bottom:.5rem}
+.lc-t{font-size:1rem;color:var(--wh);margin-bottom:.55rem;font-weight:600}
+.lc-d{font-size:.88rem;color:var(--mt);line-height:1.7;font-style:italic}
+
+/* FOOTER */
+footer{background:var(--bk);border-top:1px solid rgba(107,33,168,.3);padding:3rem;text-align:center}
+.ft-logo{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.3em;color:rgba(107,33,168,.4)}
+.ft-go{color:var(--go)}
+.ft-dt{font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(168,85,247,.3);letter-spacing:.22em;margin-top:.4rem}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}
+.rv.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* PURPLE RAIN SECTION */
+#purple-rain{
+background:linear-gradient(180deg,#14001f 0%,#2e0057 50%,#14001f 100%);
+padding:10rem 0;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+.pr-quote{
+font-size:clamp(2rem,5vw,4rem);
+font-style:italic;
+color:#fff;
+line-height:1.4;
+max-width:900px;
+margin:0 auto;
+}
+.pr-ko{
+margin-top:2rem;
+font-size:1.1rem;
+color:#c084fc;
+line-height:1.8;
+}
+.pr-cover{
+width:min(500px,90%);
+margin-top:3rem;
+border:1px solid rgba(192,132,252,.3);
+box-shadow:0 0 40px rgba(168,85,247,.25);
+}
+.legacy-end,.legacy-end-ko{
+margin-top:1rem;
+}
+@media(max-width:900px){
+.ab-grid,.ic-layout,.lg-cards{grid-template-columns:1fr;}
+.al-grid{grid-template-columns:1fr;}
+.stats{grid-template-columns:repeat(2,1fr);}
+.gal-main{display:flex;flex-direction:column;}
+.al-strip{grid-template-columns:repeat(2,1fr);}
+nav{padding:1rem;}
+.n-links{display:none;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="cur-r"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="n-logo">♦ Prince</a>
+  <ul class="n-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#discography">Music</a></li>
+    <li><a href="#icon">Icon</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#legacy">Legacy</a></li>
+  </ul>
+</nav>
+
+<!-- ① HERO -->
+<section id="hero">
+  <div class="h-bg"></div>
+  <div class="h-photo"></div>
+  <div class="h-vgn"></div>
+  <div class="h-grid"></div>
+  <div class="h-ptc" id="ptc"></div>
+  <div class="h-cnt">
+    <span class="h-sym">♦</span>
+    <span class="h-eye">The Artist Formerly Known As</span>
+    <span class="h-ttl">PRINCE</span>
+    <p class="h-sub">"Music is the one true religion."</p>
+    <p class="h-yr">June 7, 1958 &nbsp;—&nbsp; April 21, 2016</p>
+  </div>
+  <div class="h-scr"><span>Scroll</span><div class="scrl"></div></div>
+</section>
+
+<!-- ② ABOUT -->
+<section id="about">
+  <div class="ct">
+    <div class="ab-grid">
+      <!-- 흑백 포트레이트 이미지 -->
+      <div class="ab-img-wrap rv">
+        <img class="ab-img" src="img_bw_portrait.webp" alt="Prince early portrait">
+        <div class="ab-frame"></div>
+        <div class="ab-badge">
+          <span class="ab-bn">39</span>
+          <span class="ab-bl">Albums</span>
+        </div>
+      </div>
+      <!-- 텍스트 -->
+      <div>
+        <span class="slbl rv">01 — The Artist</span>
+        <blockquote class="ab-qt rv d1">"I was born to do <em>exactly</em> what I'm doing today."</blockquote>
+        <div class="ab-tx rv d2">
+          <p>Prince Rogers Nelson은 미국 미네소타주 미니애폴리스 출신의 싱어송라이터, 멀티 인스트루멘탈리스트, 음악 프로듀서이자 배우. 록, 펑크, R&B, 소울, 재즈를 단 한 사람의 몸으로 녹여낸 장르 해체의 아이콘.</p>
+          <p>7세에 피아노를 독학하고, 13세에 첫 밴드를 결성했다. 완전한 크리에이티브 자율성을 위해 메이저 레코드사와 싸웠고, 마스터 테이프 소유권을 지키기 위해 얼굴에 'SLAVE'를 새겼다.</p>
+          <p>단 한 번도 자신의 정체성을 타협하지 않았다.</p>
+        </div>
+        <div class="stats">
+          <div class="st rv d1"><span class="st-n">100M+</span><span class="st-l">Records Sold</span></div>
+          <div class="st rv d2"><span class="st-n">7</span><span class="st-l">Grammys</span></div>
+          <div class="st rv d3"><span class="st-n">39</span><span class="st-l">Studio Albums</span></div>
+          <div class="st rv d4"><span class="st-n">57</span><span class="st-l">Years of Legacy</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ TIMELINE -->
+<section id="timeline">
+  <div class="ct">
+    <span class="slbl rv">02 — Life & Music</span>
+    <h2 class="sttl rv">Timeline</h2>
+    <div class="pline rv"></div>
+    <div class="tl">
+      <div class="tl-i"><span class="tl-yr">1958</span><p class="tl-ev">미네소타 미니애폴리스에서 탄생</p><p class="tl-ds">재즈 피아니스트 아버지 John L. Nelson과 가수 어머니 Mattie Shaw 사이에서 태어남. 7세에 피아노를 독학 시작.</p></div>
+      <div class="tl-i"><span class="tl-yr">1978</span><p class="tl-ev">데뷔 앨범 <em>For You</em></p><p class="tl-ds">Warner Bros.와 계약. 모든 악기를 혼자 연주·녹음. 완전한 크리에이티브 컨트롤 조건으로 계약한 전례 없는 데뷔.</p></div>
+      <div class="tl-i"><span class="tl-yr">1982</span><p class="tl-ev"><em>1999</em> — 글로벌 브레이크스루</p><p class="tl-ds">더블 앨범으로 발매. "Little Red Corvette"가 MTV를 강타하며 전 세계 팬을 사로잡다.</p></div>
+      <div class="tl-i"><span class="tl-yr">1984</span><p class="tl-ev"><em>Purple Rain</em> — 역사를 바꾸다</p><p class="tl-ds">영화와 사운드트랙 동시 발매. 24주 연속 빌보드 1위. 그래미 2관왕. 역사상 가장 위대한 앨범 중 하나.</p></div>
+      <div class="tl-i"><span class="tl-yr">1987</span><p class="tl-ev"><em>Sign O' The Times</em> — 비평적 정점</p><p class="tl-ds">16트랙 더블 앨범 걸작. 시대와 사회를 노래한 마스터피스. 수많은 평론가가 선정한 역대 최고 앨범.</p></div>
+      <div class="tl-i"><span class="tl-yr">1993</span><p class="tl-ev">이름을 심볼(♦)로 바꾸다</p><p class="tl-ds">Warner Bros.와의 권리 분쟁. 얼굴에 'SLAVE'를 새기고 마스터 테이프 소유권을 위해 싸우다.</p></div>
+      <div class="tl-i"><span class="tl-yr">2004</span><p class="tl-ev">로큰롤 명예의 전당 헌액</p><p class="tl-ds">헌액 행사에서 행한 "While My Guitar Gently Weeps" 솔로는 역대 최고의 라이브 퍼포먼스 중 하나.</p></div>
+      <div class="tl-i"><span class="tl-yr">2007</span><p class="tl-ev">슈퍼볼 하프타임 — 전설의 공연</p><p class="tl-ds">폭우 속에서 퍼플 기타를 들고 무대를 지배. 역대 슈퍼볼 최고의 하프타임 쇼로 지금도 회자된다.</p></div>
+      <div class="tl-i"><span class="tl-yr">2016</span><p class="tl-ev">영원히 잠들다</p><p class="tl-ds">4월 21일, 미네소타 페이즐리 파크에서 별세. 57세. 전 세계가 애도했다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ DISCOGRAPHY -->
+<section id="discography">
+  <div class="ct">
+    <span class="slbl rv">03 — Discography</span>
+    <h2 class="sttl rv">Essential Albums</h2>
+    <div class="gline rv"></div>
+    <div class="al-grid">
+
+      <div class="al-card rv">
+        <div class="al-cov">
+          <img src="img_album_purple_rain.webp" alt="Purple Rain">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">Purple Rain · When Doves Cry<br>Let's Go Crazy · I Would Die 4 U</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">Purple Rain</div><div class="al-yr">1984</div><div class="al-ds">영화 사운드트랙이자 역대 최고의 앨범. 24주 빌보드 1위, 그래미 2관왕.</div></div>
+      </div>
+
+      <div class="al-card rv d1">
+        <div class="al-cov">
+          <img src="img_album_1999.webp" alt="1999">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">1999 · Little Red Corvette<br>Delirious · Lady Cab Driver</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">1999</div><div class="al-yr">1982</div><div class="al-ds">종말론적 파티 앨범. 신시사이저와 펑크가 충돌하는 더블 앨범.</div></div>
+      </div>
+
+      <div class="al-card rv d2">
+        <div class="al-cov">
+          <img src="img_album_around.jpg" alt="Around the World in a Day">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">Around the World in a Day<br>Raspberry Beret · Pop Life</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">Around the World in a Day</div><div class="al-yr">1985</div><div class="al-ds">사이키델릭 팝의 정점. Purple Rain 직후 완전히 다른 방향으로의 도전.</div></div>
+      </div>
+
+      <div class="al-card rv">
+        <div class="al-cov">
+          <img src="img_album_dirty.webp" alt="Dirty Mind">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">Dirty Mind · Do It All Night<br>Head · Party Up</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">Dirty Mind</div><div class="al-yr">1980</div><div class="al-ds">원초적 펑크와 노골적 가사. 이 한 장이 팝 음악의 판도를 바꿨다.</div></div>
+      </div>
+
+      <div class="al-card rv d1">
+        <div class="al-cov">
+          <img src="img_album_lovesexy.jpg" alt="Lovesexy">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">Alphabet St. · Glam Slam<br>I Wish U Heaven · Positivity</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">Lovesexy</div><div class="al-yr">1988</div><div class="al-ds">영적 각성과 에로티시즘의 융합. 전체가 하나의 곡처럼 연결된 앨범.</div></div>
+      </div>
+
+      <div class="al-card rv d2">
+        <div class="al-cov">
+          <img src="img_album_sign.jpg" alt="Sign O The Times"
+            onerror="this.style.background='linear-gradient(135deg,#0A1628,#1E3A5F)';this.style.display='block'">
+          <div class="al-ovl"><div class="al-play">▶</div><div class="al-tks">Sign O' The Times · If I Was Your GF<br>U Got The Look · The Cross</div></div>
+        </div>
+        <div class="al-inf"><div class="al-ttl">Sign O' The Times</div><div class="al-yr">1987</div><div class="al-ds">16트랙 더블 앨범의 걸작. 시대와 사회를 정면으로 노래한 마스터피스.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ ICON -->
+<section id="icon">
+  <div class="ct">
+    <div class="ic-layout">
+      <!-- 왼쪽: Purple Rain 투어 공연 사진 고정 -->
+      <div class="ic-photo-wrap rv">
+        <img class="ic-photo" src="img_purple_rain_tour.webp" alt="Prince Purple Rain Tour" style="aspect-ratio:3/4">
+        <p class="ic-cap">Purple Rain Tour, 1984–85</p>
+      </div>
+      <!-- 오른쪽: 설명 -->
+      <div>
+        <span class="slbl rv">04 — Fashion & Identity</span>
+        <h2 class="sttl rv">The Icon</h2>
+        <div class="pline rv"></div>
+        <div class="st-list">
+          <div class="st-item rv"><div class="st-hd"><span class="st-num">01</span><span class="st-nm">Purple Royalty</span></div><p class="st-tx">퍼플 러플 셔츠, 하이힐 부츠, 새틴 코트. 남성성과 여성성을 동시에 폭발시킨 스타일. 퍼플은 단순한 색이 아닌 정체성 그 자체였다.</p></div>
+          <div class="st-item rv d1"><div class="st-hd"><span class="st-num">02</span><span class="st-nm">Gender Fluid Pioneer</span></div><p class="st-tx">1980년대에 이미 아이라이너, 하이힐, 레이스를 착용. 비욘세·레이디 가가·프랭크 오션 등 수많은 아티스트의 선구자.</p></div>
+          <div class="st-item rv d2"><div class="st-hd"><span class="st-num">03</span><span class="st-nm">The Love Symbol ♦</span></div><p class="st-tx">1993년 이름을 대체한 발음 불가능한 심볼. 남성(♂)·여성(♀)·십자가가 합쳐진 저항과 정체성의 선언.</p></div>
+          <div class="st-item rv d3"><div class="st-hd"><span class="st-num">04</span><span class="st-nm">Guitar God</span></div><p class="st-tx">Cloud 기타를 든 그의 솔로는 지미 헨드릭스에 비견된다. 슈퍼볼 폭우 속 공연은 역대 최고의 라이브 퍼포먼스로 남아 있다.</p></div>
+          <div class="st-item rv d4"><div class="st-hd"><span class="st-num">05</span><span class="st-nm">Paisley Park</span></div><p class="st-tx">미네소타에 세운 자신만의 녹음 왕국. Paisley Park Records로 완전한 음악적 독립을 이루고 음반 산업 구조 자체를 바꾸다.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ GALLERY -->
+<section id="gallery">
+  <div class="ct">
+    <span class="slbl rv">05 — Visual Archive</span>
+    <h2 class="sttl rv">Gallery</h2>
+    <div class="gline rv"></div>
+
+    <!-- 메인 그리드: 공연 사진들 -->
+    <div class="gal-main rv">
+      <!-- 슈퍼볼 2007 — 가로로 큰 칸 -->
+      <div class="g g-a">
+        <img src="img_superbowl.webp" alt="Super Bowl XLI Halftime Show 2007">
+        <div class="g-lbl">Super Bowl XLI Halftime Show, 2007</div>
+      </div>
+      <!-- 흑백 포트레이트 -->
+      <div class="g g-b">
+        <img src="img_bw_portrait.webp" alt="Prince early portrait 1980s">
+        <div class="g-lbl">Early Portrait, 1980s</div>
+      </div>
+      <!-- Purple Rain 투어 — 세로로 긴 칸 -->
+      <div class="g g-c">
+        <img src="img_purple_rain_tour.webp" alt="Purple Rain Tour 1984">
+        <div class="g-lbl">Purple Rain Tour, 1984</div>
+      </div>
+      <!-- Grammy 공연 -->
+      <div class="g g-d">
+        <img src="img_grammy.jpg" alt="Grammy Performance">
+        <div class="g-lbl">Grammy Awards</div>
+      </div>
+      <!-- 흑백 기타 공연 -->
+      <div class="g g-e">
+        <img src="img_bw_guitar.webp" alt="Prince on guitar">
+        <div class="g-lbl">Live Concert</div>
+      </div>
+      <!-- Purple Rain 앨범 커버 -->
+      <div class="g g-f">
+        <img src="img_album_purple_rain.webp" alt="Purple Rain Album">
+        <div class="g-lbl">Purple Rain, 1984</div>
+      </div>
+    </div>
+
+    <!-- 앨범 커버 스트립 -->
+    <div class="al-strip rv">
+      <div class="as"><img src="img_album_purple_rain.webp" alt="Purple Rain"><div class="as-lbl">Purple Rain · 1984</div></div>
+      <div class="as"><img src="img_album_1999.webp" alt="1999"><div class="as-lbl">1999 · 1982</div></div>
+      <div class="as"><img src="img_album_around.jpg" alt="Around the World"><div class="as-lbl">Around the World · 1985</div></div>
+      <div class="as"><img src="img_album_dirty.webp" alt="Dirty Mind"><div class="as-lbl">Dirty Mind · 1980</div></div>
+      <div class="as"><img src="img_album_lovesexy.jpg" alt="Lovesexy"><div class="as-lbl">Lovesexy · 1988</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PURPLE RAIN -->
+<section id="purple-rain">
+  <div class="ct">
+    <span class="slbl">05A — Purple Rain</span>
+    <h2 class="sttl">The Song That Became Eternity</h2>
+    <div class="gline" style="margin:0 auto 3rem"></div>
+
+    <blockquote class="pr-quote">
+      "Only want to see you.<br>
+      In the purple rain."
+    </blockquote>
+
+    <p class="pr-ko">
+      오직 당신이 보고 싶어요.<br>
+      보랏빛 빗속에서.
+    </p>
+
+    <img src="img_album_purple_rain.webp" alt="Purple Rain Album" class="pr-cover">
+  </div>
+</section>
+
+
+<!-- ⑦ LEGACY -->
+<section id="legacy">
+  <div class="ct">
+    <span class="lg-sym">♦</span>
+    <span class="slbl rv" style="text-align:center;display:block">06 — Forever</span>
+    <h2 class="sttl rv" style="text-align:center">Legacy</h2>
+    <div class="gline rv" style="margin:0 auto 3rem"></div>
+    <blockquote class="lg-qt rv">"당신이 이 세상에 남겨두고 싶은 것은 무엇인가요?"<br><em>"음악. 오직 음악뿐."</em></blockquote>
+    <p class="lg-at rv" style="margin-top:.7rem">— Prince Rogers Nelson</p>
+    <div class="lg-cards">
+      <div class="lc rv"><div class="lc-n">01</div><div class="lc-t">음악 산업의 혁명</div><p class="lc-d">아티스트 권리 운동의 선구자. 마스터 테이프 소유권과 배포 자율성을 위해 메이저 레코드사에 맞선 최초의 팝스타 중 한 명.</p></div>
+      <div class="lc rv d1"><div class="lc-n">02</div><div class="lc-t">장르의 해체</div><p class="lc-d">록·팝·펑크·R&B·재즈·소울이 하나의 몸에서 폭발했다. 카테고리를 거부한 그의 음악은 이후 모든 팝 음악의 청사진이 됐다.</p></div>
+      <div class="lc rv d2"><div class="lc-n">03</div><div class="lc-t">영원한 문화적 아이콘</div><p class="lc-d">Purple Rain은 영화·앨범·패션을 동시에 정의했다. 그는 단순한 뮤지션이 아닌 팝 컬처 그 자체였고, 그 영향은 지금도 계속된다.</p></div>
+    </div>
+  </div>
+
+<p class="legacy-end" style="text-align:center;color:#fff;font-style:italic;margin-top:3rem;">
+Even after the rain stops, the color remains.
+</p>
+<p class="legacy-end-ko" style="text-align:center;color:#c084fc;">
+비가 그친 뒤에도, 그 보랏빛은 남아 있다.
+</p>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="ft-logo">PRINCE <span class="ft-go">♦</span> ROGERS NELSON</div>
+  <div class="ft-dt">June 7, 1958 — April 21, 2016 · Minneapolis, Minnesota</div>
+</footer>
+
+<script>
+// cursor
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(a)})();
+document.querySelectorAll('a,.al-card,.st-item,.g,.as').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('on');cr.classList.add('on')});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('on');cr.classList.remove('on')});
+});
+
+// particles
+const pc=document.getElementById('ptc');
+function mkP(){
+  const p=document.createElement('div');p.className='ptc';
+  const s=Math.random()*2.5+.8;
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*9+7}s;animation-delay:${Math.random()*6}s`;
+  pc.appendChild(p);setTimeout(()=>p.remove(),(s*1000+15000));
+}
+setInterval(mkP,400);for(let i=0;i<10;i++)mkP();
+
+// scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target)}})},{threshold:.08});
+document.querySelectorAll('.rv,.tl-i').forEach(el=>obs.observe(el));
+
+// nav scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>50));
+</script>
+</body>
+</html>
